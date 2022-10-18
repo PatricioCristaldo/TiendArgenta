@@ -15,7 +15,7 @@
         <form action="/admin/editar/<%= producto.id %>?_method=PUT" method="post" enctype="multipart/form-data"> <!--ENCTYPE FUNDAMENTAL PARA SUBIR IMG CON MULTER-->
             <section class="agregar">
                 <div class="form-floating">
-                    <input type="text" name="Titulo" class="form-control" id="Titulo" value="<%=locals.old && old.titulo ?old.nombre: null %><%= producto.titulo %>" placeholder="Titulo">
+                    <input type="text" name="Titulo" class="form-control" id="Titulo" value="<%=locals.old && old.titulo ?old.nombre: null %><%= producto.nombre %>" placeholder="Titulo">
                     <label for="Titulo">Editar nombre</label>
                     <% if (locals.errors && errors.titulo) { %>
                         <small><%= errors.titulo.msg %> </small>
@@ -38,7 +38,7 @@
                 <div class="form-floating">
                     <select class="form-select" name="subCategoria" id="floatingSelect" aria-label="Floating label select example">
                         <% subcategorias.forEach(subcategoria => { %>
-                            <option value="<%= subcategoria %>" <%= producto.subcategoria === subcategoria ? 'selected' : null %> ><%= subcategoria %></option>
+                            <option value="<%= subcategoria %>" <%= producto.subcategoria.nombre === subcategoria ? 'selected' : null %> ><%= subcategoria %></option>
                         <% }) %>
                     </select>
                     
@@ -141,7 +141,7 @@
 <!--SUBIDA DE IMAGENES-->
                 <div class="mb-3">
                     <label for="formFileMultiple" class="form-label">Subir imagenes del producto</label>
-                    <input class="form-control" type="file" name="imagen" id="formFileMultiple" accept="image/png, .PNG" value="<%= locals.old && old.imagen ? old.nombre: null %>" >
+                    <input class="form-control" type="file" name="imagen" id="formFileMultiple" accept="image/png, .PNG" value="<%= locals.old && old.imagen.nombre ? old.nombre: null %>" >
                     <% if (locals.errors && errors.imagen) { %>
                         <small><%= errors.imagen.msg %> </small>
                     <% } %>

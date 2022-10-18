@@ -6,12 +6,12 @@
   <%- include('./partials/header') %>
 
     <main>
-        <h1><%= producto.titulo %></h1>
+        <h1><%= producto.nombre %></h1>
         <div class="desk">
           <!--IMAGEN DEL PRODUCTO-->
           <section class="imagenes">
             <div class="img_principal">
-              <img src="/images/productos/<%= producto.imagen %>" alt="" />
+              <img src="/images/productos/<%= producto.imagen.nombre %>" alt="" />
             </div>
           </section>
           <!--DATOS DEL PRODUCTO-->
@@ -80,8 +80,8 @@
                 <% productoPorCategoria.forEach(producto => { %>
                 <%- include('./partials/cards',{
                     id: producto.id,
-                    imagen: producto.imagen,
-                    titulo: producto.titulo,
+                    imagen: producto.imagen.nombre,
+                    titulo: producto.nombre,
                     descuento: producto.descuento,
                     precio: producto.precio
                 }) %> 

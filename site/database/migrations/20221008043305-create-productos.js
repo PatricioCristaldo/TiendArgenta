@@ -26,8 +26,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       descripcion: {
-        allowNull: false,
-        type: Sequelize.STRING
+        /* allowNull: false, */
+        type: Sequelize.STRING(500)
       },
       categoriasId: {
         type: Sequelize.INTEGER,

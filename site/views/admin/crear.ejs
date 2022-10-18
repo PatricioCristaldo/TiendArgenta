@@ -34,11 +34,14 @@
                             <option <%= old.categoria === "Infantil"?"selected":null %> value="Infantil">Infantil</option>                         
                         <% } else { %>
                             <option selected hidden>Seleccione la categoria</option>
-                            <option value="Cotillon">Cotillon</option>
+                            <% categorias.forEach(categoria=>{%>
+                                <option value="'<% categoria.id %>"><%= categoria.nombre %></option>
+                            <% }) %> 
+                            <!-- <option value="Cotillon">Cotillon</option>
                             <option value="Coleccionables">Coleccionables</option>
                             <option value="Hombre">Hombre</option>
                             <option value="Mujer">Mujer</option>
-                            <option value="Infantil">Infantil</option>
+                            <option value="Infantil">Infantil</option> -->
                         <% } %> 
                     </select>
                     <label for="floatingSelect">Categoria de Producto</label>

@@ -7,15 +7,15 @@ module.exports = (sequelize, DataTypes) => {
         as: "categoria",
         foreignKey: "CategoriasId",
       }),
-        Productos.belongsTo(models.subCategorias, {
-          as: "subcategoria",
-          foreignKey: "subCategoriasId",
-        }),
-        Productos.hasMany(models.Imagenes, {
-          as: "imagen",
-          foreignKey: "productosId",
-          onDelete: "cascade",//elimina en cascada
-        });
+      Productos.belongsTo(models.subCategorias,{
+        as: 'subcategoria',
+        foreignKey: 'subCategoriasId'
+      }),
+      Productos.hasMany(models.Imagenes,{
+        as: 'imagenes',
+        foreignKey: 'productosId',
+        onDelete:'cascade'
+      })
     }
   }
   Productos.init(

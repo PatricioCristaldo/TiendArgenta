@@ -41,7 +41,7 @@ module.exports = {
         return res.render('carrito')
         
         // Cuenta el número de veces que se repite el producto
-       let agregarCarrito = carrito.reduce((total, itemId) => {
+        let agregarCarrito = carrito.reduce((total, itemId) => {
             // ¿Coincide las id? Incremento el contador, en caso contrario no mantengo
             return itemId === item ? total += 1 : total;
         }, 0);
@@ -66,7 +66,7 @@ module.exports = {
         }]
         })
         .then(categorias=>{
-            /* return res.send(categorias) */
+            //return res.send(categorias)
             return res.render('productos',{
                 categorias
             })

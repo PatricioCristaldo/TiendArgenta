@@ -1,48 +1,47 @@
-/* let productos = require("../data/productos.json"); */
- 
 let db = require('../database/models')
 const {Op} = require("sequelize");
 
-//HOME NEW PRODUCTS
-/* let nuevosProductos = productos.slice(productos.length - 4); */
-
 module.exports = {
   home: (req, res) => {
-    /* agrego letproductos  */
-    /* let id= +req.params.id
-    let updatedAt */
-    db.Productos.findAll({
-      limit:4,
-      order:[
-        ['id','DESC']
-      ],
-      include:[{
-        all:true
-      }]   
-    })
+      /* trae los ultimos 4 productos */
+        db.Productos.findAll({             
+          limit: 4,
+          order: [
+            ['id', 'DESC']
+          ],
+          include:[
+            {all:true}
+          ]
+        })
+    
     .then(productos=>
       res.render("home", {productos}))
         /* return res.send(productos) */
       .catch(error => res.send(error)); 
   },
-  search: (req, res) => {
-    let elemento = req.query.search;
-    //SE IMPLEMENTA BASE DE DATOS
+  search : (req,res) => {
+    let elemento = req.query.search
+
     db.Productos.findAll({
-            where : {
-                [Op.or] : [
-                    {nombre : {[Op.substring] : elemento}},
-                    {descripcion : {[Op.substring] : elemento}}
-                ]
-            }
-        })
-    
-    return res.render("busqueda",
-    {
-      busqueda: elemento,
-      resultados,
-    });
-  },
+        where : {
+            [Op.or] : [
+                {titulo : {[Op.substring] : elemento}},
+                {descripcion : {[Op.substring] : elemento}}
+            ]
+        },
+        include:[
+          {all:true}
+        ]
+    })
+    .then((resultados) => {
+      return res.render('busqueda', 
+      {
+          busqueda: elemento,
+          resultados
+      });
+    })
+    .catch(error => res.send(error))
+},
   contacto: (req, res) => {
     return res.render("contacto");
   },

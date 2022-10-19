@@ -61,7 +61,6 @@ module.exports = {
             guardar(usuarios) */
 
             .then(usuario => {
-                
                 req.session.userLogin = {
                     id : usuario.id,
                     name : usuario.nombre,
@@ -115,6 +114,7 @@ module.exports = {
             })
             .then(usuario => {
                 
+                //return res.send(usuario)
                 req.session.userLogin = {
                     id : usuario.id,
                     name : usuario.nombre,

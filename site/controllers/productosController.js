@@ -20,7 +20,6 @@ module.exports = {
                 where:{
                     categoriasId: producto.categoriasId
                 },
-                limit:4,
                 order:[[Sequelize.literal('RAND()')]],
                 include:[{
                     all:true
@@ -67,7 +66,7 @@ module.exports = {
         }]
         })
         .then(categorias=>{
-            return res.send(categorias)
+            /* return res.send(categorias) */
             return res.render('productos',{
                 categorias
             })

@@ -212,7 +212,7 @@ CREATE TABLE `productos` (
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `categoriasId` (`categoriasId`),
-  KEY `subCategoriasId` (`subCategoriasId`),
+  KEY `subCategoriasId` (`sub`),
   CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`categoriasId`) REFERENCES `categorias` (`id`),
   CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`subCategoriasId`) REFERENCES `subcategorias` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4;

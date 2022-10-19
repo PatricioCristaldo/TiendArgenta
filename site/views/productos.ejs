@@ -6,11 +6,11 @@
     <main>
         <h1 class="productsPage"><%= categorias.nombre %></h1>
         <section class="cardProduct">
-          <% productoPorCategoria.productos.forEach(producto => { %>
+          <% categorias.productos.forEach(producto => { %>
               <%- include('./partials/cards',{
                   id: producto.id,
-                  imagen: producto.imagen.nombre,
-                  titulo: producto.nombre,
+                  imagen: producto.imagenes[0].nombre,
+                  titulo: producto.titulo,
                   descuento: producto.descuento,
                   precio: producto.precio
               }) %> 

@@ -64,8 +64,8 @@ module.exports = {
                 
                 req.session.userLogin = {
                     id : usuario.id,
-                    name : usuario.Nombres,
-                    lastName : usuario.Apellidos,
+                    name : usuario.nombre,
+                    lastName : usuario.apellido,
                     dni: usuario.dni,
                     telefono: usuario.telefono,
                     direccion: usuario.direccion,
@@ -149,7 +149,7 @@ module.exports = {
         return res.render('editarUsuario')
     },
     edit: (req, res) => { 
-        return res.send(imagen);
+        /* return res.send(imagen); */
         /*  if (errors.isEmpty()) {
              let usuarioModificado = {
                  dni: dni,

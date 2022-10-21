@@ -7,9 +7,6 @@ const upload = require('../middlewares/multerProductos')
 const productsValidation=require('../validations/productsValidation');*/
 
 
-/* const adminCheck= require('../middlewares/adminCheck')
-const productsValidation=require('../validations/productsValidation'); */
-
 
 /* get home page */
 router.get('/listar',/*adminCheck,*/ listar);

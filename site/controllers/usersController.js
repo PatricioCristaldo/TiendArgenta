@@ -3,9 +3,6 @@ const path = require('path');
 const db = require('../database/models')
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
-/*const usuarios = require('../data/users.json');
-const guardar = (dato) => fs.writeFileSync(path.join(__dirname, '../data/users.json')
-    , JSON.stringify(dato, null, 4), 'utf-8')*/
 
 module.exports = {
     
@@ -43,23 +40,6 @@ module.exports = {
                 imagen: req.file > 1 ? req.file.filename : "login.png"
                 
             })
-            /* let usuarioNuevo = {
-                id:usuarios[usuarios.length - 1].id + 1,
-                Nombres: Nombres,
-                Apellidos: Apellidos,
-                dni: "",
-                gender: "",
-                email: email,
-                pass:bcrypt.hashSync(pass,10),
-                address: "",
-                provincia: "",
-                localidad: "",
-                category: "user",
-                imagen: req.file ? req.file.filename : "login.png"
-            }
-            usuarios.push(usuarioNuevo)
-            guardar(usuarios) */
-
             .then(usuario => {
                 req.session.userLogin = {
                     id : usuario.id,
@@ -80,14 +60,6 @@ module.exports = {
             .catch(errores => res.send(errores))
             
         } else {
-            //este codigo estaba comentado---eliminamos imagen
-            /* let ruta = (dato) => fs.existsSync(path.join(__dirname, '..', '..', 'public', 'images', 'usuario', dato))
-            
-            if (ruta(req.file.filename) && (req.file.filename !== "login.png")) {
-                fs.unlinkSync(path.join(__dirname, '..', '..', 'public', 'images', 'usuario', req.file.filename))//supuestamente esto eliminaria la imagen
-            } */
-            
-            /* return res.send(errors.mapped()) */
             return res.render('register', {
                 errors: errors.mapped(),
                 old: req.body
@@ -106,7 +78,6 @@ module.exports = {
         if (errors.isEmpty()){
             
             const {email, recordarme} = req.body
-            /* let usuario = usuarios.find(user => user.email === email) */
             db.Usuarios.findOne({
                 where : {
                     email
@@ -145,59 +116,78 @@ module.exports = {
             })
         }
     },
-    editarUsuario: (req, res) => {        
-        return res.render('editarUsuario')
+    editarUsuario: (req, res) => {  
+        let id = +req.params.id;
+        db.Usuarios.findOne({
+            where: {
+                id : id,
+            },
+            include: [{
+                all: true,
+            }]
+        })
+        .then((usuario) => {
+            console.log(usuario);
+            return res.render('editarUsuario', {
+                usuario
+            });
+        }).catch((error)=> res.send(error));
     },
     edit: (req, res) => { 
-        /* return res.send(imagen); */
-        /*  if (errors.isEmpty()) {
-             let usuarioModificado = {
-                 dni: dni,
-                 telefono: telefono,
-                 gender: gender,
-                 address: address,
-                 imagen: req.file ? req.file.filename : "login.png"
-             } 
-             guardar(usuarioModificado)
- 
-             return res.redirect('/')}
-       console.log(usuarios); 
-     return res.send(usuarioModificado)  */ 
-        let id = +req.params.id
-        let {Nombres, Apellidos, dni, telefono, gender, imagen, pass, address, category} = req.body
-         let errors = validationResult(req)
+        let errors = validationResult(req)
         if (req.fileValidationError) {
             let imagen = {
                 param: 'imagen',
                 msg: req.fileValidationError,
             }
             errors.errors.push(imagen)}
+
+            //console.log(req.body);
         if (errors.isEmpty()) {
-            usuarios.forEach(usuario => {
-                if (usuario.id === id) {
-                    usuario.Nombres = Nombres
-                    usuario.Apellidos = Apellidos
-                    usuario.dni = +dni
-                    usuario.telefono = +telefono
-                    usuario.direccion = direccion
-                    usuario.localidad = localidad 
-                    usuario.provincia = provincia
-                    usuario.codPost = +codPost
-                    usuario.gender = gender
-                    usuario.pass = usuario.pass
-                    usuario.email = usuario.email
-                    usuario.address = address
-                    usuario.imagen = req.file ? req.file.filename : imagen
-                }})
-                guardar(usuarios)
-            return res.redirect('/')
-        } else {
+            let id = +req.params.id
+            //console.log(id);
+            let {Nombres, Apellidos, dni, telefono, direccion, localidad, provincia, codPost, imagen} = req.body
+            db.Usuarios.findOne({
+                where:{
+                    id:id
+                }
+            })
+            .then((usuario) => {
+                //return res.send(usuario)
+                    db.Usuarios.update({
+                        nombre : Nombres,
+                        apellido : Apellidos,
+                        dni : +dni,
+                        telefono : +telefono,
+                        direccion : direccion,
+                        localidad : localidad,
+                        provincia : provincia,
+                        codPost : +codPost,
+                        email : usuario.email,
+                        password : usuario.password,
+                        imagen : req.file ? req.file.filename : usuario.imagen,
+                    },
+                    {where:{
+                            id:id,
+                        },
+                    })
+                .then((result) => {
+                    if (req.file) {
+                        if (fs.existsSync(path.join(__dirname, "../../public/images/usuario", usuario.imagen)))
+                            fs.existsSync(path.join(__dirname, "../../public/images/usuario", usuario.imagen));
+                    }
+                    return res.redirect('/usuario/perfil')
+                })
+                .catch((error) => res.send(error));
+            })
+            .catch((error) => res.send(error));
+        }else {
             return res.render('editarUsuario', {
                 errors: errors.mapped(),
                 old: req.body
-            })}
-
-    },
+        })
+    } 
+},
 
     usuarios : (req,res) => {
         return res.render('usuario')
